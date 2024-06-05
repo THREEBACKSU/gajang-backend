@@ -7,7 +7,8 @@ create table bank (
 );
 create table address (
     a_id int not null auto_increment,
-    name varchar(32) not null,
+    city varchar(32) not null,
+    zipcode int not null,
     primary key(a_id)
 );
 create table user (
