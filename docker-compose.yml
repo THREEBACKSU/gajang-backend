@@ -1,0 +1,14 @@
+version: '3'
+services:
+  db:
+    image: mysql:8.0.37
+    container_name: gajang-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Seoul
+    ports:
+      - 3306:9001
+    volumes:
+      - ./Database/conf.d:/etc/mysql/conf.d
+      - ./Database/initdb.d:/docker-entrypoint-initdb.d
