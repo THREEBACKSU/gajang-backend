@@ -1,4 +1,4 @@
-create table gajang;
+create database gajang;
 use gajang;
 create table bank (
     b_id int not null auto_increment,
@@ -15,9 +15,9 @@ create table user (
     password varchar(64) not null,
     address_id int not null,
     phone varchar(32) not null,
-    bank_id int nout null,
-    account_number varchar(64) default "",
-    rating float,
+    bank_id int not null,
+    account_number varchar(64) not null,
+    rating float default 36.5,
     primary key(u_id),
     foreign key(address_id) references address(a_id),
     foreign key(bank_id) references bank(b_id)
