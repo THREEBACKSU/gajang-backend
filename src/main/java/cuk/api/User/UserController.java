@@ -1,6 +1,7 @@
 package cuk.api.User;
 
 import cuk.api.ResponseEntities.ResponseMessage;
+import cuk.api.User.Entities.User;
 import cuk.api.User.Request.SignUpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,7 @@ public class UserController {
 
     @PostMapping("/signup")
     @ResponseBody
-    public ResponseEntity<ResponseMessage> signUp(@RequestBody @Valid SignUpRequest signUpRequest, BindingResult bindingResult) throws Exception{
+    public ResponseEntity<ResponseMessage> signUp(@RequestBody @Valid User user, BindingResult bindingResult) throws Exception{
         ResponseMessage resp = new ResponseMessage();
         if (bindingResult.hasErrors()) {
             resp.setStatus(HttpStatus.BAD_REQUEST);
@@ -29,8 +30,8 @@ public class UserController {
         }
         resp.setStatus(HttpStatus.CREATED);
         resp.setMessage("회원가입이 성공했습니다.");
-        resp.setData(signUpRequest);
-        userService.signUp();
+        resp.setData(user);
+        userService.signUp(user);
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 }
