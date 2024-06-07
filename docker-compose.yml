@@ -25,6 +25,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - 9002:8080
+    depends_on:
+      - db
     networks:
       - gajang-net
 
