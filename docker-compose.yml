@@ -15,8 +15,6 @@ services:
       - 9001:3306
     networks:
       - gajang-net
-    volumes:
-      - ./Database:/var/lib/mysql
 
   backend:
     container_name: gajang-spring
