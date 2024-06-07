@@ -1,0 +1,6 @@
+cuk\api\ResponseEntities\ResponseMessage.class
+cuk\api\User\Request\SignUpRequest.class
+cuk\api\User\UserService.class
+cuk\api\WelcomeController.class
+cuk\api\User\UserController.class
+cuk\api\User\Entities\User.class

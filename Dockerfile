@@ -1,4 +1,4 @@
-FROM tomcat:9.0.89-jdk17-corretto
+FROM tomcat:9.0.89-jdk17
 
 RUN ["rm", "/etc/localtime"]
 RUN ["ln", "-sf", "/usr/share/zoneinfo/Asia/Seoul", "/etc/localtime"]
