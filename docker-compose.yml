@@ -18,6 +18,14 @@ services:
     volumes:
       - ./Database:/var/lib/mysql
 
+  backend:
+    container_name: gajang-spring
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - gajang-net
+
 networks:
   gajang-net:
     driver: bridge
