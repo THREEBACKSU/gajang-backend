@@ -6,9 +6,12 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@EnableTransactionManagement
+@Transactional(readOnly = true)
 public class UserService {
     private final SessionFactory sessionFactory;
     @Autowired
@@ -18,10 +21,9 @@ public class UserService {
 
     @Transactional
     public void signUp(SignUpRequest signUpRequest) throws Exception {
-        Session session = sessionFactory.openSession();
+        Session session = sessionFactory.getCurrentSession();
         User user = new User(signUpRequest);
         session.persist(user);
         System.out.println(user);
-        session.close();
     }
 }
