@@ -16,12 +16,15 @@ import javax.validation.Valid;
 
 @Controller
 public class UserController {
+    private final UserService userService;
     @Autowired
-    UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/signup")
     @ResponseBody
-    public ResponseEntity<ResponseMessage> signUp(@RequestBody @Valid User user, BindingResult bindingResult) throws Exception{
+    public ResponseEntity<ResponseMessage> signUp(@RequestBody @Valid SignUpRequest signUpRequest, BindingResult bindingResult) throws Exception{
         ResponseMessage resp = new ResponseMessage();
         if (bindingResult.hasErrors()) {
             resp.setStatus(HttpStatus.BAD_REQUEST);
@@ -30,8 +33,8 @@ public class UserController {
         }
         resp.setStatus(HttpStatus.CREATED);
         resp.setMessage("회원가입이 성공했습니다.");
-        resp.setData(user);
-        userService.signUp(user);
+        resp.setData(signUpRequest);
+        userService.signUp(signUpRequest);
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 }
