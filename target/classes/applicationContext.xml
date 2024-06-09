@@ -26,6 +26,7 @@
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
                 <prop key="hibernate.show_sql">false</prop>
                 <prop key="hibernate.format_sql">false</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
             </props>
         </property>
     </bean>
@@ -34,5 +35,4 @@
     </bean>
     <!-- 트랜잭션 관련 어노테이션 활성화 -->
     <tx:annotation-driven transaction-manager="myTransactionManager"/>
-
 </beans>

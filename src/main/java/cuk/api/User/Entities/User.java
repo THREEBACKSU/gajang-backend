@@ -4,6 +4,8 @@ import cuk.api.User.Request.SignUpRequest;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.NamedQueries;
+import org.hibernate.annotations.NamedQuery;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,12 @@ import javax.persistence.Table;
 @Data
 @ToString
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(
+                name = "User_signIn",
+                query = "SELECT u from user u WHERE u.u_id = :u_id AND u.password = :password"
+        )
+})
 public class User {
     @Id
     @Column(name = "u_id")
