@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity(name="user")
 @Table
@@ -23,7 +24,8 @@ import javax.persistence.Table;
                 query = "SELECT u from user u WHERE u.u_id = :u_id AND u.password = :password"
         )
 })
-public class User {
+public class User implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "u_id")
     private String u_id;

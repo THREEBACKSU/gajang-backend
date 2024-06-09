@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -63,6 +64,16 @@ public class UserController {
         resp.setStatus(HttpStatus.OK);
         resp.setMessage("Success");
         resp.setData(user);
+
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    @GetMapping("/logout")
+    public ResponseEntity<ResponseMessage> logout(HttpSession httpSession) throws Exception{
+        ResponseMessage resp = new ResponseMessage();
+        resp.setStatus(HttpStatus.OK);
+        resp.setMessage("Success");
+        httpSession.invalidate();
 
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
