@@ -56,4 +56,7 @@
     <bean id="springSessionRepositoryFilter" class="org.springframework.session.web.http.SessionRepositoryFilter">
         <constructor-arg ref="mySpringSessionRepository"/>
     </bean>
+
+    <!-- Swagger 설정 Bean -->
+    <bean class="cuk.api.Swagger.SwaggerConfig"/>
 </beans>
