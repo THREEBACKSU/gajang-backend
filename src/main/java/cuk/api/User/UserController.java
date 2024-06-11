@@ -4,6 +4,8 @@ import cuk.api.ResponseEntities.ResponseMessage;
 import cuk.api.User.Entities.User;
 import cuk.api.User.Request.SignInRequest;
 import cuk.api.User.Request.SignUpRequest;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
+@Api(tags="사용자 기능")
 @Controller
 public class UserController {
     private final UserService userService;
@@ -25,6 +28,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @ApiOperation("회원가입")
     @PostMapping("/signup")
     @ResponseBody
     public ResponseEntity<ResponseMessage> signUp(@RequestBody @Valid SignUpRequest signUpRequest, BindingResult bindingResult) throws Exception{
@@ -42,6 +46,7 @@ public class UserController {
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 
+    @ApiOperation("로그인")
     @PostMapping("/signin")
     @ResponseBody
     public ResponseEntity<ResponseMessage> login(@RequestBody @Valid SignInRequest signInRequest, BindingResult bindingResult, HttpSession httpSession) throws Exception {
@@ -68,6 +73,7 @@ public class UserController {
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
+    @ApiOperation("로그아웃")
     @GetMapping("/logout")
     public ResponseEntity<ResponseMessage> logout(HttpSession httpSession) throws Exception{
         ResponseMessage resp = new ResponseMessage();

@@ -1,15 +1,18 @@
 package cuk.api;
 
 import cuk.api.ResponseEntities.ResponseMessage;
-import cuk.api.User.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+@Api(tags="테스트 기능")
 @Controller
 public class WelcomeController {
+    @ApiOperation("서버 테스트")
     @GetMapping("/")
     @ResponseBody
     public ResponseEntity<ResponseMessage> welcome() {

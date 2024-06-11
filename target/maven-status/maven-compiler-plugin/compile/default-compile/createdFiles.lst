@@ -6,4 +6,5 @@ cuk\api\User\Entities\User.class
 cuk\api\Error\ErrorHandler.class
 cuk\api\Swagger\SwaggerConfig.class
 cuk\api\ResponseEntities\ResponseMessage.class
+cuk\api\Swagger\SwaggerConfig2.class
 cuk\api\WelcomeController.class

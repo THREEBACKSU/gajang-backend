@@ -2,7 +2,6 @@ package cuk.api.Swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -13,8 +12,6 @@ import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger.web.UiConfiguration;
-import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
@@ -45,8 +42,8 @@ public class SwaggerConfig implements WebMvcConfigurer {
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Api Services")
-                .description("Api Services")
+                .title("Gajang API Document")
+                .description("오류 있으면 연락주세요")
                 .version("v1")
                 .build();
     }

@@ -34,23 +34,6 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-<!--    <servlet-mapping>-->
-<!--        <servlet-name>swagger-ui</servlet-name>-->
-<!--        <url-pattern>/swagger-ui/index.html</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/springfox.css</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/swagger-ui.css</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/springfox.js</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/swagger-ui.js</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/swagger-ui-bundle.js</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/swagger-ui-standalone-preset.js</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/favicon-32x32.png</url-pattern>-->
-<!--        <url-pattern>/swagger-ui/favicon-16x16.png</url-pattern>-->
-<!--        <url-pattern>/swagger-resources/configuration/ui</url-pattern>-->
-<!--        <url-pattern>/swagger-resources/configuration/security</url-pattern>-->
-<!--        <url-pattern>/swagger-resources</url-pattern>-->
-<!--        <url-pattern>/v2/api-docs</url-pattern>-->
-<!--    </servlet-mapping>-->
-
     <!-- <servlet-name>을 딴 dispatcher-servlet.xml이 controller 설정 파일 -->
     <servlet>
         <servlet-name>dispatcher</servlet-name>
