@@ -1,5 +1,6 @@
 package cuk.api.User;
 
+import cuk.api.Address.AddressService;
 import cuk.api.ResponseEntities.ResponseMessage;
 import cuk.api.User.Entities.User;
 import cuk.api.User.Request.SignInRequest;
@@ -21,10 +22,12 @@ import javax.validation.Valid;
 @RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
+    private final AddressService addressService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, AddressService addressService) {
         this.userService = userService;
+        this.addressService = addressService;
     }
 
     @ApiOperation("아이디 중복확인")
@@ -74,7 +77,15 @@ public class UserController {
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
 
-        userService.signUp(signUpRequest);
+        // 주소 확인
+        int address_id = addressService.getAddressId(signUpRequest.getProvince(), signUpRequest.getCity(), signUpRequest.getTown());
+        if (address_id == -1) {
+            resp.setStatus(HttpStatus.BAD_REQUEST);
+            resp.setMessage("입력된 주소가 유효하지 않습니다.");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        userService.signUp(signUpRequest, address_id);
 
         resp.setStatus(HttpStatus.CREATED);
         resp.setMessage("Success");

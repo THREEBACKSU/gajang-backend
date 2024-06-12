@@ -7,11 +7,11 @@ import lombok.ToString;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 @Entity(name="user")
 @Table
@@ -56,17 +56,21 @@ public class User implements Serializable {
     @Column(name = "account_number")
     private String account_number;
 
+    @Column(name = "join_date")
+    private LocalDateTime join_date;
+
     @Column(name = "rating")
     private float rating;
 
-    public User(SignUpRequest signUpRequest) {
+    public User(SignUpRequest signUpRequest, int address_id) {
         this.u_id = signUpRequest.getU_id();
         this.password = signUpRequest.getPassword();
         this.name = signUpRequest.getName();
-        this.address_id = signUpRequest.getAddress_id();
+        this.address_id = address_id;
         this.phone = signUpRequest.getPhone();
         this.bank_id = signUpRequest.getBank_id();
         this.account_number = signUpRequest.getAccount_number();
+        this.join_date = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
         this.rating = 36.5f;
     }
 }

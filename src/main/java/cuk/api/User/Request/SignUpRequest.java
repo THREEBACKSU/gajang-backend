@@ -17,6 +17,12 @@ public class SignUpRequest {
     @NotNull
     private int address_id;
     @NotBlank
+    private String province;
+    @NotBlank
+    private String city;
+    @NotBlank
+    private String town;
+    @NotBlank
     private String phone;
     @NotNull
     private int bank_id;

@@ -32,6 +32,10 @@ import javax.persistence.Table;
         @NamedQuery(
                 name = "Address_getTownByProvinceAndCity",
                 query = "SELECT distinct a.town from address a where a.province = :province and a.city = :city"
+        ),
+        @NamedQuery(
+                name = "Address_getAddressId",
+                query = "SELECT a.id from address a where a.province = :province and a.city = :city and a.town = :town"
         )
 })
 public class Address {

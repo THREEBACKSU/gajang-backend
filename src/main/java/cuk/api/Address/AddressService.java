@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @EnableTransactionManagement
@@ -44,5 +45,15 @@ public class AddressService {
                 .setParameter("city", city);
         List<String> result = query.getResultList();
         return result;
+    }
+
+    public int getAddressId(String province, String city, String town) throws Exception {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Integer> query = session.createNamedQuery("Address_getAddressId", Integer.class)
+                .setParameter("province", province)
+                .setParameter("city", city)
+                .setParameter("town", town);
+        int address_id = query.stream().findAny().orElse(-1);
+        return address_id;
     }
 }

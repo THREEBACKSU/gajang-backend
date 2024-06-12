@@ -22,11 +22,11 @@ public class UserService {
     }
 
     @Transactional
-    public void signUp(SignUpRequest signUpRequest) throws Exception {
+    public void signUp(SignUpRequest signUpRequest, int address_id) throws Exception {
         Session session = sessionFactory.getCurrentSession();
-        User user = new User(signUpRequest);
+
+        User user = new User(signUpRequest, address_id);
         session.persist(user);
-        System.out.println(user);
     }
 
     public User signIn(SignInRequest signInRequest) throws Exception {

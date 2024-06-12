@@ -20,7 +20,7 @@
     </bean>
     <bean id="mySessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
         <property name="dataSource" ref="myDataSource"/>
-        <property name="packagesToScan" value="cuk.api.User.Entities, cuk.api.Address.Entities"></property>
+        <property name="packagesToScan" value="cuk.api.User.Entities, cuk.api.Address.Entities, cuk.api.Bank.Entities"></property>
         <!--단일 클래스들로 지정할 경우-->
 <!--        <property name="annotatedClasses">-->
 <!--            <list>-->
