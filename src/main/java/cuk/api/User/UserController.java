@@ -18,13 +18,49 @@ import javax.validation.Valid;
 
 @Api(tags="사용자 기능")
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
     private final UserService userService;
 
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @ApiOperation("아이디 중복확인")
+    @PostMapping("/u_id/{u_id}")
+    public ResponseEntity<ResponseMessage> isDuplicatedID(@PathVariable("u_id") String u_id) throws Exception {
+        ResponseMessage resp = new ResponseMessage();
+
+        User user = userService.isDuplicatedId(u_id);
+
+        if (user != null) {
+            resp.setStatus(HttpStatus.OK);
+            resp.setMessage("Unusable");
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        }
+
+        resp.setStatus(HttpStatus.OK);
+        resp.setMessage("Usable");
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    @ApiOperation("이름 중복확인")
+    @PostMapping("/name/{name}")
+    public ResponseEntity<ResponseMessage> isDuplicatedName(@PathVariable("name") String name) throws Exception {
+        ResponseMessage resp = new ResponseMessage();
+
+        User user = userService.isDuplicatedName(name);
+
+        if (user != null) {
+            resp.setStatus(HttpStatus.OK);
+            resp.setMessage("Unusable");
+            return new ResponseEntity<>(resp, HttpStatus.OK);
+        }
+
+        resp.setStatus(HttpStatus.OK);
+        resp.setMessage("Usable");
+        return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
     @ApiOperation("회원가입")

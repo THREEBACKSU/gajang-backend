@@ -22,6 +22,14 @@ import java.io.Serializable;
         @NamedQuery(
                 name = "User_signIn",
                 query = "SELECT u from user u WHERE u.u_id = :u_id AND u.password = :password"
+        ),
+        @NamedQuery(
+                name = "User_isDuplicatedID",
+                query = "SELECT u from user u WHERE u.u_id = :u_id"
+        ),
+        @NamedQuery(
+                name = "User_isDuplicatedName",
+                query = "SELECT u from user u WHERE u.name = :name"
         )
 })
 public class User implements Serializable {
@@ -32,6 +40,9 @@ public class User implements Serializable {
 
     @Column(name = "password")
     private String password;
+
+    @Column (name = "name")
+    private String name;
 
     @Column(name = "address_id")
     private int address_id;
@@ -51,6 +62,7 @@ public class User implements Serializable {
     public User(SignUpRequest signUpRequest) {
         this.u_id = signUpRequest.getU_id();
         this.password = signUpRequest.getPassword();
+        this.name = signUpRequest.getName();
         this.address_id = signUpRequest.getAddress_id();
         this.phone = signUpRequest.getPhone();
         this.bank_id = signUpRequest.getBank_id();

@@ -9,18 +9,18 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Server;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
+import javax.servlet.http.HttpSession;
 import java.util.Collections;
 
 @Configuration
 @EnableWebMvc
-@EnableSwagger2
-public class SwaggerConfig implements WebMvcConfigurer {
+@EnableOpenApi
+public class SwaggerConfig implements WebMvcConfigurer{
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.
@@ -34,16 +34,20 @@ public class SwaggerConfig implements WebMvcConfigurer {
         registry.addViewController("/swagger-ui/")
                 .setViewName("forward:" + "/swagger-ui/index.html");
     }
+
     @Bean
     public Docket api() {
         Server publicServer = new Server("Public", "https://gajang.shbox.kr", "실제 api url", Collections.emptyList(), Collections.emptyList());
         Server localServer = new Server("Local", "http://localhost:8080", "로컬 테스트", Collections.emptyList(), Collections.emptyList());
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .servers(publicServer, localServer)
+                .ignoredParameterTypes(HttpSession.class)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("cuk.api"))
                 .paths(PathSelectors.any())
                 .build()
+                .groupName("API 1.0.0")
+                .useDefaultResponseMessages(false)
                 .apiInfo(apiInfo());
     }
     private ApiInfo apiInfo() {

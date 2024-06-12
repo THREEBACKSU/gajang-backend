@@ -37,4 +37,20 @@ public class UserService {
         User result = query.getSingleResult();
         return result;
     }
+
+    public User isDuplicatedId(String u_id) throws Exception {
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> query = session.createNamedQuery("User_isDuplicatedID", User.class)
+                .setParameter("u_id", u_id);
+        User result = query.stream().findAny().orElse(null);
+        return result;
+    }
+
+    public User isDuplicatedName(String name) throws Exception {
+        Session session = sessionFactory.getCurrentSession();
+        Query<User> query = session.createNamedQuery("User_isDuplicatedName", User.class)
+                .setParameter("name", name);
+        User result = query.stream().findAny().orElse(null);
+        return result;
+    }
 }

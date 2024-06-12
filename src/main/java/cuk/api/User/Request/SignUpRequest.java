@@ -12,6 +12,8 @@ public class SignUpRequest {
     private String u_id;
     @Size(min=8)
     private String password;
+    @NotBlank
+    private String name;
     @NotNull
     private int address_id;
     @NotBlank
