@@ -12,8 +12,16 @@ public class SignUpRequest {
     private String u_id;
     @Size(min=8)
     private String password;
+    @NotBlank
+    private String name;
     @NotNull
     private int address_id;
+    @NotBlank
+    private String province;
+    @NotBlank
+    private String city;
+    @NotBlank
+    private String town;
     @NotBlank
     private String phone;
     @NotNull

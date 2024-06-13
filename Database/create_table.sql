@@ -14,6 +14,7 @@ create table address (
 create table user (
     u_id varchar(32) not null,
     password varchar(64) not null,
+    name varchar(32) not null,
     address_id int not null,
     phone varchar(32) not null,
     bank_id int not null,
