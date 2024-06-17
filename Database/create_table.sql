@@ -7,8 +7,9 @@ create table bank (
 );
 create table address (
     a_id int not null auto_increment,
+    province varchar(32) not null,
     city varchar(32) not null,
-    zipcode int not null,
+    town varchar(32) not null,
     primary key(a_id)
 );
 create table user (
@@ -19,6 +20,7 @@ create table user (
     phone varchar(32) not null,
     bank_id int not null,
     account_number varchar(64) not null,
+    join_date datetime not null,
     rating float default 36.5,
     primary key(u_id),
     foreign key(address_id) references address(a_id),
