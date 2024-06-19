@@ -18,14 +18,17 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
+import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.session.web.http.HttpSessionIdResolver;
+import org.springframework.session.web.http.SessionRepositoryFilter;
 
 @Configuration
 @EnableWebSecurity
-@EnableJdbcHttpSession
 @RequiredArgsConstructor
-@Order(2)
 public class SecurityConfig{
     private final UserDetailsService userDetailsService;
     private final ObjectMapper objectMapper;
@@ -60,10 +63,7 @@ public class SecurityConfig{
                 .httpBasic().disable()
                 .formLogin().disable()
                 .rememberMe().disable()
-                .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                .sessionFixation().migrateSession();
+                .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

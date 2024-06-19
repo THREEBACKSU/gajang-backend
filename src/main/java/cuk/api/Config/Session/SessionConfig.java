@@ -10,6 +10,7 @@ import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
 import org.springframework.session.web.http.CookieHttpSessionIdResolver;
 import org.springframework.session.web.http.HttpSessionIdResolver;
+import org.springframework.session.web.http.SessionRepositoryFilter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -18,7 +19,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJdbcHttpSession
-@Order(1)
 public class SessionConfig {
     private final DataSource dataSource;
     private final HibernateTransactionManager myTransactionManager;

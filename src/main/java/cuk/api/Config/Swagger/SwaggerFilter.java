@@ -1,4 +1,4 @@
-package cuk.api.Swagger;
+package cuk.api.Config.Swagger;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.servers.Server;
