@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
                 query = "SELECT u from user u WHERE u.u_id = :u_id AND u.password = :password"
         ),
         @NamedQuery(
-                name = "User_isDuplicatedID",
+                name = "User_loadUserByU_id",
                 query = "SELECT u from user u WHERE u.u_id = :u_id"
         ),
         @NamedQuery(
@@ -32,8 +32,7 @@ import java.time.format.DateTimeFormatter;
                 query = "SELECT u from user u WHERE u.name = :name"
         )
 })
-public class User implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class User{
     @Id
     @Column(name = "u_id")
     private String u_id;
@@ -59,6 +58,10 @@ public class User implements Serializable {
     @Column(name = "join_date")
     private LocalDateTime join_date;
 
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
     @Column(name = "rating")
     private float rating;
 
@@ -71,6 +74,7 @@ public class User implements Serializable {
         this.bank_id = signUpRequest.getBank_id();
         this.account_number = signUpRequest.getAccount_number();
         this.join_date = LocalDateTime.now(ZoneId.of("Asia/Seoul"));
+        this.role = Role.MEMBER;
         this.rating = 36.5f;
     }
 }

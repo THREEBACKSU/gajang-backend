@@ -35,18 +35,9 @@ public class UserService {
         session.persist(user);
     }
 
-    public User signIn(SignInRequest signInRequest) throws Exception {
-        Session session = sessionFactory.getCurrentSession();
-        Query<User> query = session.createNamedQuery("User_signIn", User.class)
-                        .setParameter("u_id", signInRequest.getU_id())
-                                .setParameter("password", signInRequest.getPassword());
-        User result = query.getSingleResult();
-        return result;
-    }
-
     public User isDuplicatedId(String u_id) throws Exception {
         Session session = sessionFactory.getCurrentSession();
-        Query<User> query = session.createNamedQuery("User_isDuplicatedID", User.class)
+        Query<User> query = session.createNamedQuery("User_loadUserByU_id", User.class)
                 .setParameter("u_id", u_id);
         User result = query.stream().findAny().orElse(null);
         return result;

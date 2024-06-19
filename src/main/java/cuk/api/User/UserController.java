@@ -92,33 +92,6 @@ public class UserController {
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
 
-    @ApiOperation("로그인")
-    @PostMapping("/signin")
-    @ResponseBody
-    public ResponseEntity<ResponseMessage> login(@RequestBody @Valid SignInRequest signInRequest, BindingResult bindingResult, HttpSession httpSession) throws Exception {
-        ResponseMessage resp = new ResponseMessage();
-        if (bindingResult.hasErrors()) {
-            resp.setStatus(HttpStatus.BAD_REQUEST);
-            resp.setMessage("입력된 값이 유효하지 않습니다.");
-            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
-        }
-        User user = userService.signIn(signInRequest);
-
-        if (user == null) {
-            resp.setStatus(HttpStatus.BAD_REQUEST);
-            resp.setMessage("ID, PASSWORD가 일치하지 않습니다.");
-            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
-        }
-
-        httpSession.setAttribute("user", user);
-
-        resp.setStatus(HttpStatus.OK);
-        resp.setMessage("Success");
-        resp.setData(user);
-
-        return new ResponseEntity<>(resp, HttpStatus.OK);
-    }
-
     @ApiOperation("로그아웃")
     @GetMapping("/logout")
     public ResponseEntity<ResponseMessage> logout(HttpSession httpSession) throws Exception{

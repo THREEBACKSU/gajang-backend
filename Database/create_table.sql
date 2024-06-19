@@ -14,13 +14,14 @@ create table address (
 );
 create table user (
     u_id varchar(32) not null,
-    password varchar(64) not null,
+    password varchar(80) not null,
     name varchar(32) not null,
     address_id int not null,
     phone varchar(32) not null,
     bank_id int not null,
     account_number varchar(64) not null,
     join_date datetime not null,
+    role varchar(16) not null,
     rating float default 36.5,
     primary key(u_id),
     foreign key(address_id) references address(a_id),
