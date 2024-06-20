@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.hibernate.annotations.NamedQueries;
 import org.hibernate.annotations.NamedQuery;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -32,7 +33,8 @@ import java.time.format.DateTimeFormatter;
                 query = "SELECT u from user u WHERE u.name = :name"
         )
 })
-public class User{
+public class User implements Serializable{
+    private static final long serialVersionUID = 12345L;
     @Id
     @Column(name = "u_id")
     private String u_id;

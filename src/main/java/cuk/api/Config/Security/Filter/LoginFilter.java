@@ -12,6 +12,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,7 +45,7 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse hresponse) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
         String messageBody = StreamUtils.copyToString(request.getInputStream(), StandardCharsets.UTF_8);
 
         Map<String, String> u_idPasswordMap = objectMapper.readValue(messageBody, Map.class);
@@ -54,17 +55,4 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(u_id, password);//principal 과 credentials 전달
         return this.getAuthenticationManager().authenticate(authRequest);
     }
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
-        SecurityContextHolder.getContext().setAuthentication(authResult);
-        response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType("application/json");
-        ResponseMessage resp = new ResponseMessage();
-        resp.setMessage("Success");
-        resp.setStatus(HttpStatus.OK);
-        resp.setData(authResult);
-        response.getWriter().write(objectMapper.writeValueAsString(resp));
-    }
-
 }

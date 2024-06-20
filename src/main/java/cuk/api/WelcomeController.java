@@ -22,7 +22,6 @@ public class WelcomeController {
         ResponseMessage resp = new ResponseMessage();
         resp.setStatus(HttpStatus.OK);
         resp.setMessage("Welcome to gajang~");
-        System.out.println(session.getAttribute("user"));
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

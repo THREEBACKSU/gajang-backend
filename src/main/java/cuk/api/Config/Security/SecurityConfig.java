@@ -1,30 +1,24 @@
 package cuk.api.Config.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cuk.api.Config.Security.Filter.LoginFailureHandler;
 import cuk.api.Config.Security.Filter.LoginFilter;
+import cuk.api.Config.Security.Filter.LoginSuccessHandler;
 import cuk.api.User.Entities.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.security.web.context.SecurityContextRepository;
-import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
-import org.springframework.session.jdbc.JdbcIndexedSessionRepository;
-import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession;
-import org.springframework.session.web.http.HttpSessionIdResolver;
-import org.springframework.session.web.http.SessionRepositoryFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -93,6 +87,18 @@ public class SecurityConfig{
     public LoginFilter loginFilter() throws Exception {
         LoginFilter loginFilter = new LoginFilter(objectMapper);
         loginFilter.setAuthenticationManager(authenticationManager());
+        loginFilter.setAuthenticationSuccessHandler(loginSuccessHandler());
+        loginFilter.setAuthenticationFailureHandler(loginFailureHandler());
         return loginFilter;
+    }
+
+    @Bean
+    public LoginSuccessHandler loginSuccessHandler() {
+        return new LoginSuccessHandler(objectMapper);
+    }
+
+    @Bean
+    public LoginFailureHandler loginFailureHandler() {
+        return new LoginFailureHandler(objectMapper);
     }
 }
