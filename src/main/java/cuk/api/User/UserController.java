@@ -91,15 +91,4 @@ public class UserController {
         resp.setMessage("Success");
         return new ResponseEntity<>(resp, HttpStatus.CREATED);
     }
-
-    @ApiOperation("로그아웃")
-    @GetMapping("/logout")
-    public ResponseEntity<ResponseMessage> logout(HttpSession httpSession) throws Exception{
-        ResponseMessage resp = new ResponseMessage();
-        resp.setStatus(HttpStatus.OK);
-        resp.setMessage("Success");
-        httpSession.invalidate();
-
-        return new ResponseEntity<>(resp, HttpStatus.OK);
-    }
 }

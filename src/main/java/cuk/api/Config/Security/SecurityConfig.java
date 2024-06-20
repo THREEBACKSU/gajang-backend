@@ -1,6 +1,7 @@
 package cuk.api.Config.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import cuk.api.Config.Security.Filter.JSONLogoutHandler;
 import cuk.api.Config.Security.Filter.LoginFailureHandler;
 import cuk.api.Config.Security.Filter.LoginFilter;
 import cuk.api.Config.Security.Filter.LoginSuccessHandler;
@@ -57,7 +58,8 @@ public class SecurityConfig{
                 .httpBasic().disable()
                 .formLogin().disable()
                 .rememberMe().disable()
-                .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
+                .logout().logoutSuccessHandler(jsonLogoutHandler());
         return http.build();
     }
 
@@ -100,5 +102,10 @@ public class SecurityConfig{
     @Bean
     public LoginFailureHandler loginFailureHandler() {
         return new LoginFailureHandler(objectMapper);
+    }
+
+    @Bean
+    public JSONLogoutHandler jsonLogoutHandler() {
+        return new JSONLogoutHandler(objectMapper);
     }
 }
