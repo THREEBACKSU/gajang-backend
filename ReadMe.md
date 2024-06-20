@@ -1,4 +1,8 @@
 # Gajang API
+진화 프로세스를 관찰하세요.
+
+
+https://seelab.notion.site/c28fa1147317416097b82a13d48037c0?v=3e2d9c887b6a42b8b7f39718945bd39b&pvs=4
 
 ## Gajang API Docs
 with Swagger:
@@ -33,5 +37,5 @@ docker-compose up backend // API Server
 
 특정 컨테이너를 아예 새롭게 빌드하는 경우 (소스코드 수정 후 war빌드 반영을 위함)
 ```shell
-docker-compose up backend --rebuild --force-recreate
+docker-compose up backend --build --force-recreate
 ```

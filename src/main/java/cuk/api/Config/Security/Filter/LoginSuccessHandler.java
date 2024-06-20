@@ -2,6 +2,7 @@ package cuk.api.Config.Security.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import cuk.api.ResponseEntities.ResponseMessage;
+import cuk.api.User.Response.LoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -25,9 +26,11 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         ResponseMessage resp = new ResponseMessage();
         resp.setMessage("Success");
         resp.setStatus(HttpStatus.OK);
-        resp.setData(authentication);
+        LoginResponse loginResponse = new LoginResponse(authentication.getName(), authentication.getAuthorities());
+        resp.setData(loginResponse);
 
         // JSON 응답 출력
+        response.addHeader("Content-Type", "application/json; charset=UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.OK.value());
         response.getWriter().write(objectMapper.writeValueAsString(resp));

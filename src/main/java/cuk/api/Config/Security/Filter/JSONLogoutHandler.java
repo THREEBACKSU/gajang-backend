@@ -26,6 +26,7 @@ public class JSONLogoutHandler extends SimpleUrlLogoutSuccessHandler {
         resp.setMessage("Success");
         resp.setStatus(HttpStatus.OK);
 
+        response.addHeader("Content-Type", "application/json; charset=UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.OK.value());
         response.getWriter().write(objectMapper.writeValueAsString(resp));

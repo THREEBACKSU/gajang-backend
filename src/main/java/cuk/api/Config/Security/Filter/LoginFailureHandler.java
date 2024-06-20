@@ -24,11 +24,11 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         ResponseMessage resp = new ResponseMessage();
-        resp.setMessage("Fail");
         resp.setStatus(HttpStatus.BAD_REQUEST);
-        resp.setData(getExceptionMessage(e));
+        resp.setMessage(getExceptionMessage(e));
 
         // JSON 응답 출력
+        response.addHeader("Content-Type", "application/json; charset=UTF-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setStatus(HttpStatus.BAD_REQUEST.value());
         response.getWriter().write(objectMapper.writeValueAsString(resp));
@@ -37,9 +37,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
 
     private String getExceptionMessage(AuthenticationException exception) {
         if (exception instanceof BadCredentialsException) {
-            return "비밀번호가 일치하지 않습니다";
-        } else if (exception instanceof UsernameNotFoundException) {
-            return "해당 id의 계정이 존재하지 않습니다.";
+            return "존재하지 않는 아이디를 입력했거나 아이디와 비밀번호가 일치하지 않습니다";
         } else if (exception instanceof AccountExpiredException) {
             return "만료된 계정입니다.";
         } else if (exception instanceof CredentialsExpiredException) {

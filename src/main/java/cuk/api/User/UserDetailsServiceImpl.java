@@ -24,7 +24,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         Session session = sessionFactory.getCurrentSession();
         Query<User> query = session.createNamedQuery("User_loadUserByU_id", User.class)
                 .setParameter("u_id", u_id);
-        User user = query.stream().findAny().orElse(null);
+        User user = query.stream().findAny().orElseThrow(() -> new UsernameNotFoundException("Not found User"));
         return new SecurityUserDetails(user);
     }
 }
