@@ -14,8 +14,6 @@ public class SignUpRequest {
     private String password;
     @NotBlank
     private String name;
-    @NotNull
-    private int address_id;
     @NotBlank
     private String province;
     @NotBlank
