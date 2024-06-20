@@ -1,10 +1,12 @@
 package cuk.api.Config.Security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import cuk.api.Config.Security.Filter.JSONLogoutHandler;
-import cuk.api.Config.Security.Filter.LoginFailureHandler;
+import cuk.api.Config.Security.Filter.EntryPoint;
+import cuk.api.Config.Security.Handler.JSONAccessDeniedHandler;
+import cuk.api.Config.Security.Handler.JSONLogoutHandler;
+import cuk.api.Config.Security.Handler.LoginFailureHandler;
 import cuk.api.Config.Security.Filter.LoginFilter;
-import cuk.api.Config.Security.Filter.LoginSuccessHandler;
+import cuk.api.Config.Security.Handler.LoginSuccessHandler;
 import cuk.api.User.Entities.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -59,7 +61,11 @@ public class SecurityConfig{
                 .formLogin().disable()
                 .rememberMe().disable()
                 .addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class)
-                .logout().logoutSuccessHandler(jsonLogoutHandler());
+                .logout().logoutSuccessHandler(jsonLogoutHandler())
+                .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(entryPoint())
+                .accessDeniedHandler(jsonAccessDeniedHandler());
         return http.build();
     }
 
@@ -107,5 +113,15 @@ public class SecurityConfig{
     @Bean
     public JSONLogoutHandler jsonLogoutHandler() {
         return new JSONLogoutHandler(objectMapper);
+    }
+
+    @Bean
+    public EntryPoint entryPoint() {
+        return new EntryPoint(objectMapper);
+    }
+
+    @Bean
+    public JSONAccessDeniedHandler jsonAccessDeniedHandler() {
+        return new JSONAccessDeniedHandler(objectMapper);
     }
 }
