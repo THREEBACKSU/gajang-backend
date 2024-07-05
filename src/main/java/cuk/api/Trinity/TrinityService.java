@@ -17,7 +17,7 @@ public class TrinityService {
     public TrinityService(TrinityRepository trinityRepository) {
         this.trinityRepository = trinityRepository;
     }
-    public void login(LoginRequest loginRequest) {
+    public void login(LoginRequest loginRequest) throws Exception{
         TrinityUser trinityUser = new TrinityUser(loginRequest);
 
         trinityUser = trinityRepository.loginForm(trinityUser);
@@ -25,8 +25,8 @@ public class TrinityService {
         trinityUser = trinityRepository.auth(trinityUser);
 
         trinityUser = trinityRepository.login(trinityUser);
-
-        System.out.println("쿠키: " + trinityUser.getCookie());
-        System.out.println("_csrf: " + trinityUser.get_csrf());
+//
+//        System.out.println("쿠키2: " + trinityUser.getCookie());
+//        System.out.println("_csrf: " + trinityUser.get_csrf());
     }
 }

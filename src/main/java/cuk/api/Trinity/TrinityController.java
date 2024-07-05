@@ -26,7 +26,7 @@ public class TrinityController {
         this.trinityService = trinityService;
     }
     @PostMapping("/login")
-    public ResponseEntity<ResponseMessage> login(@RequestBody @Valid LoginRequest loginRequest) {
+    public ResponseEntity<ResponseMessage> login(@RequestBody @Valid LoginRequest loginRequest) throws Exception{
         ResponseMessage resp = new ResponseMessage();
 
         trinityService.login(loginRequest);
