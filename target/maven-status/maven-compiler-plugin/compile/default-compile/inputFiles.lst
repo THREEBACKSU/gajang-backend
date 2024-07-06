@@ -5,6 +5,7 @@ C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Bank\BankCon
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Bank\BankService.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Bank\Entities\Bank.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\BasicConfig.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\RestTemplate\OkHTTPConfig.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\Security\Filter\EntryPoint.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\Security\Filter\LoginFilter.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\Security\Handler\JSONAccessDeniedHandler.java
@@ -19,6 +20,13 @@ C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\Swagg
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Config\Swagger\SwaggerFilter.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Error\ErrorHandler.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\ResponseEntities\ResponseMessage.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\Entity\CurrentGradeInfo.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\Entity\TrinityInfo.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\Entity\TrinityUser.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\Request\LoginRequest.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\TrinityController.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\TrinityRepository.java
+C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\Trinity\TrinityService.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\User\Entities\Role.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\User\Entities\SecurityUserDetails.java
 C:\Users\SELAB\Desktop\SiHyeon\gajang-backend\src\main\java\cuk\api\User\Entities\User.java

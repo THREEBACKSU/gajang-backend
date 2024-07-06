@@ -2,34 +2,35 @@ package cuk.api.Trinity.Entity;
 
 import cuk.api.Trinity.Request.LoginRequest;
 import lombok.Data;
+import org.json.simple.JSONObject;
 import org.springframework.security.core.parameters.P;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 @Data
 public class TrinityUser implements Serializable {
     private static final long serialVersionUID = 123L;
+
     private String samlRequest;
     private String SAMLResponse;
     private String _csrf;
-    private HashMap<String, String> cookies;
     private String trinityId;
     private String password;
 
+    // 트리니티 실제 정보
+    private TrinityInfo trinityInfo;
+
+    // 금학기 성적 정보
+    private ArrayList<CurrentGradeInfo> grades = new ArrayList<>();
+
     public TrinityUser(LoginRequest loginRequest) {
-        this.cookies = new HashMap<>();
+        this.trinityInfo = new TrinityInfo();
         this.trinityId = loginRequest.getTrinityId();
         this.password = loginRequest.getPassword();
     }
 
-    public void addCookie(String key, String value) {
-        cookies.put(key, value);
-    }
-    public String getCookie() {
-        String cookie = "";
-        for (String key : cookies.keySet()) {
-            cookie += (key + "=" + cookies.get(key) + ";");
-        }
-        return cookie;
+    public void addGrade(CurrentGradeInfo currentGradeInfo) {
+        grades.add(currentGradeInfo);
     }
 }

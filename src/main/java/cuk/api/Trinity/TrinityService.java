@@ -26,10 +26,16 @@ public class TrinityService {
 
         trinityUser = trinityRepository.login(trinityUser);
 
+        trinityUser = trinityRepository.getUserInfo(trinityUser);
+
+        trinityUser = trinityRepository.getSchoolInfo(trinityUser);
+
         return trinityUser;
     }
 
-    public void getGrades(TrinityUser trinityUser) throws Exception {
-        trinityRepository.getGrades(trinityUser);
+    public TrinityUser getGrades(TrinityUser trinityUser) throws Exception {
+        trinityUser = trinityRepository.getGrades(trinityUser);
+
+        return trinityUser;
     }
 }

@@ -25,6 +25,7 @@ public class TrinityController {
         this.trinityService = trinityService;
     }
     @PostMapping("/login")
+    @ApiOperation("트리니티 로그인 정보 얻어온 뒤, 세션에 저장")
     public ResponseEntity<ResponseMessage> login(@RequestBody @Valid LoginRequest loginRequest, HttpSession httpSession) throws Exception{
         ResponseMessage resp = new ResponseMessage();
 
@@ -32,11 +33,14 @@ public class TrinityController {
 
         httpSession.setAttribute("trinityUser", trinityUser);
 
+        resp.setStatus(HttpStatus.OK);
         resp.setMessage("Success");
+        resp.setData(trinityUser.getTrinityInfo());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
     @GetMapping("/grade")
+    @ApiOperation("세션 정보 토대로 금학기 성적 조회, 비공개여도 받아올 수 있음")
     public ResponseEntity<ResponseMessage> getGrades(HttpSession httpSession) throws Exception{
         ResponseMessage resp = new ResponseMessage();
 
@@ -47,7 +51,10 @@ public class TrinityController {
             return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
         }
 
-        trinityService.getGrades(trinityUser);
+        trinityUser = trinityService.getGrades(trinityUser);
+        resp.setStatus(HttpStatus.OK);
+        resp.setMessage("Success");
+        resp.setData(trinityUser.getGrades());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }
