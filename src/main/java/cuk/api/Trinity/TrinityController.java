@@ -3,6 +3,7 @@ package cuk.api.Trinity;
 import cuk.api.ResponseEntities.ResponseMessage;
 import cuk.api.Trinity.Entity.TrinityUser;
 import cuk.api.Trinity.Request.LoginRequest;
+import cuk.api.Trinity.Request.SubjtNoRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,17 @@ public class TrinityController {
         resp.setData(trinityUser.getTrinityInfo());
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
+    @GetMapping("/logout")
+    @ApiOperation("트리티니 로그아웃, 세션 파기")
+    public ResponseEntity<ResponseMessage> logout(HttpSession httpSession) throws Exception{
+        httpSession.removeAttribute("trinityUser");
+        httpSession.invalidate();
+        ResponseMessage resp = new ResponseMessage();
+        resp.setStatus(HttpStatus.OK);
+        resp.setMessage("Success");
+        
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
 
     @GetMapping("/grade")
     @ApiOperation("세션 정보 토대로 금학기 성적 조회, 비공개여도 받아올 수 있음")
@@ -55,6 +67,22 @@ public class TrinityController {
         resp.setStatus(HttpStatus.OK);
         resp.setMessage("Success");
         resp.setData(trinityUser.getGrades());
+        return new ResponseEntity<>(resp, HttpStatus.OK);
+    }
+
+    @GetMapping("/sujtNo")
+    public ResponseEntity<ResponseMessage> getSujtNo(@RequestBody @Valid SubjtNoRequest subjtNoRequest, HttpSession httpSession) throws Exception{
+        ResponseMessage resp = new ResponseMessage();
+
+        TrinityUser trinityUser = (TrinityUser) httpSession.getAttribute("trinityUser");
+
+        if (trinityUser == null) {
+            resp.setMessage("Need Login");
+            return new ResponseEntity<>(resp, HttpStatus.BAD_REQUEST);
+        }
+
+        trinityService.getSujtNo(trinityUser, subjtNoRequest);
+
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

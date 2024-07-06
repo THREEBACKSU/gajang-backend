@@ -4,6 +4,7 @@ import com.mysql.cj.xdevapi.JsonParser;
 import cuk.api.Trinity.Entity.CurrentGradeInfo;
 import cuk.api.Trinity.Entity.TrinityInfo;
 import cuk.api.Trinity.Entity.TrinityUser;
+import cuk.api.Trinity.Request.SubjtNoRequest;
 import okhttp3.*;
 import okhttp3.MediaType;
 import org.json.simple.JSONArray;
@@ -248,5 +249,53 @@ public class TrinityRepository {
         }
 
         return trinityUser;
+    }
+
+    public void getSujtNo(TrinityUser trinityUser, SubjtNoRequest subjtNoRequest) throws Exception {
+        TrinityInfo info = trinityUser.getTrinityInfo();
+        RequestBody formBody = new FormBody.Builder()
+                .add("quatFg", "INQ")
+                .add("posiFg", info.getShtmFg())
+                .add("openYyyy", info.getShtmYyyy())
+                .add("openShtm", info.getShtmFg())
+                .add("campFg", info.getCampFg())
+                .add("corsCd", "I")
+                .add("danFg", "")
+                .add("pobtFgCd", "%")
+                .build();
+
+        Request request = new Request.Builder()
+                .url("https://uportal.catholic.ac.kr/stw/scsr/scoo/findOpsbOpenSubjectInq.json")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0")
+                .addHeader("Accept", "application/json, text/javascript, */*; q=0.01")
+                .addHeader("Content-type", "application/x-www-form-urlencoded")
+                .addHeader("x-csrf-token", trinityUser.get_csrf())
+                .addHeader("x-requested-with", "XMLHttpRequest")
+                .addHeader("Accept-Encoding", "gzip, deflate, br, zstd")
+                .addHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+                .addHeader("Host", "uportal.catholic.ac.kr")
+                .addHeader("Origin", "https://uportal.catholic.ac.kr")
+                .addHeader("Referer", "https://uportal.catholic.ac.kr/stw/scsr/scoo/scooOpsbOpenSubjectInq.do")
+                .post(formBody)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                JSONObject data = (JSONObject) parser.parse(response.body().string());
+
+                JSONArray Scores = (JSONArray) data.get("DS_COUR_TALA010");
+                for (Object obj : Scores) {
+                    JSONObject score = (JSONObject) obj;
+
+                    CurrentGradeInfo cgi = new CurrentGradeInfo();
+                    cgi.setGradeInfo(score);
+                    trinityUser.addGrade(cgi);
+                }
+            }
+        } catch (NullPointerException e) {
+            throw new Exception("Request 헤더 또는 바디에 필요한 정보가 담겨있지 않습니다.");
+        } catch (Exception e) {
+            throw new Exception("Request Failed");
+        }
     }
 }
