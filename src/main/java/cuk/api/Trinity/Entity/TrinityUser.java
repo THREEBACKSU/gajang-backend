@@ -4,9 +4,11 @@ import cuk.api.Trinity.Request.LoginRequest;
 import lombok.Data;
 import org.springframework.security.core.parameters.P;
 
+import java.io.Serializable;
 import java.util.HashMap;
 @Data
-public class TrinityUser {
+public class TrinityUser implements Serializable {
+    private static final long serialVersionUID = 123L;
     private String samlRequest;
     private String SAMLResponse;
     private String _csrf;

@@ -89,9 +89,12 @@ public class TrinityRepository {
                 .build();
 
         Request request = new Request.Builder()
-                .url(BASE_PATH + "/portal/login/login.ajax")
+                .url("https://uportal.catholic.ac.kr/portal/login/login.ajax")
                 .addHeader("Content-Type", "application/x-www-form-urlencoded")
                 .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0")
+                .addHeader("Accept", "*/*")
+                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                .addHeader("Host", "uportal.catholic.ac.kr")
                 .post(formBody)
                 .build();
 
@@ -101,8 +104,8 @@ public class TrinityRepository {
                 Elements body = document.getElementsByTag("meta");
                 for (Element element : body) {
                     if ("_csrf".equals(element.attr("id"))) {
-                        System.out.println(element.attr("value"));
-                        trinityUser.set_csrf(element.attr("value"));
+                        System.out.println(element.attr("content"));
+                        trinityUser.set_csrf(element.attr("content"));
                         break;
                     }
                 }
@@ -110,6 +113,37 @@ public class TrinityRepository {
                 System.out.println("Request failed: " + response.message());  // 실패 메시지 출력
             }
         }
+
         return trinityUser;
+    }
+
+    public void getGrades(TrinityUser trinityUser) throws Exception {
+        RequestBody formBody = new FormBody.Builder()
+                .add("camfFg", "M")
+                .add("tlsnYyyy", "2024")
+                .add("tlsnShtm", "10")
+                .add("stdNo", "202221330")
+                .build();
+
+        Request request = new Request.Builder()
+                .url(BASE_PATH + "/stw/scsr/ssco/findSninLectureScore.json")
+                .addHeader("Content-Type", "application/x-www-form-urlencoded")
+                .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:72.0) Gecko/20100101 Firefox/72.0")
+                .addHeader("Accept", "*/*")
+                .addHeader("X-CSRF-TOKEN", trinityUser.get_csrf())
+                .addHeader("Accept-Encoding", "gzip, deflate, br")
+                .addHeader("Host", "uportal.catholic.ac.kr")
+                .addHeader("Origin", "https://uportal.catholic.ac.kr")
+                .addHeader("Referer", "https://uportal.catholic.ac.kr/stw/scsr/ssco/sscoSemesterGradesInq.do")
+                .post(formBody)
+                .build();
+
+        try (Response response = client.newCall(request).execute()) {
+            if (response.isSuccessful()) {
+                System.out.println(response.body().string());
+            } else {
+                System.out.println("Request failed: " + response.message());  // 실패 메시지 출력
+            }
+        }
     }
 }
