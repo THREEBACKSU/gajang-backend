@@ -47,7 +47,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         } else if (exception instanceof LockedException) {
             return "계정이 잠금처리 되어 있습니다.";
         } else {
-            return "확인된 에러가 없습니다.";
+            return exception.getMessage();
         }
     }
 }

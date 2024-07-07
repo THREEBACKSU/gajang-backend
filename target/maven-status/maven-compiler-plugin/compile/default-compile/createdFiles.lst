@@ -1,11 +1,9 @@
-cuk\api\Config\Security\Filter\LoginFilter.class
 cuk\api\Config\Session\SessionConfig.class
 cuk\api\User\UserService.class
 cuk\api\Address\AddressController.class
 cuk\api\User\UserController.class
 cuk\api\Bank\BankController.class
 cuk\api\Bank\BankService.class
-cuk\api\Config\Security\SecurityConfig.class
 cuk\api\Config\Swagger\SwaggerConfig.class
 cuk\api\Error\ErrorHandler.class
 cuk\api\User\UserDetailsServiceImpl.class
