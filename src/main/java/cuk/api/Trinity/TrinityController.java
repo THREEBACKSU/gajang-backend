@@ -5,12 +5,16 @@ import cuk.api.Trinity.Entity.SecurityTrinityUser;
 import cuk.api.Trinity.Entity.TrinityUser;
 import cuk.api.Trinity.Request.LoginRequest;
 import cuk.api.Trinity.Request.SubjtNoRequest;
+import cuk.api.Trinity.Response.GradesResponse;
+import cuk.api.Trinity.Response.SujtResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -31,26 +35,33 @@ public class TrinityController {
 
     @GetMapping("/grade")
     @ApiOperation("세션 정보 토대로 금학기 성적 조회, 비공개여도 받아올 수 있음")
-    public ResponseEntity<ResponseMessage> getGrades(@AuthenticationPrincipal SecurityTrinityUser securityTrinityUser) throws Exception{
+    public ResponseEntity<ResponseMessage> getGrades() throws Exception{
         ResponseMessage resp = new ResponseMessage();
-
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityTrinityUser securityTrinityUser = (SecurityTrinityUser) authentication.getPrincipal();
         TrinityUser trinityUser = securityTrinityUser.getUser();
 
-        trinityUser = trinityService.getGrades(trinityUser);
+        GradesResponse gradesResponse = trinityService.getGrades(trinityUser);
         resp.setStatus(HttpStatus.OK);
         resp.setMessage("Success");
-        resp.setData(trinityUser.getGrades());
+        resp.setData(gradesResponse);
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 
-    @GetMapping("/sujtNo")
-    public ResponseEntity<ResponseMessage> getSujtNo(@RequestBody @Valid SubjtNoRequest subjtNoRequest, @AuthenticationPrincipal SecurityTrinityUser securityTrinityUser) throws Exception{
+    @PostMapping("/sujtNo")
+    public ResponseEntity<ResponseMessage> getSujtNo(@RequestBody @Valid SubjtNoRequest subjtNoRequest) throws Exception{
         ResponseMessage resp = new ResponseMessage();
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SecurityTrinityUser securityTrinityUser = (SecurityTrinityUser) authentication.getPrincipal();
         TrinityUser trinityUser = securityTrinityUser.getUser();
 
-        trinityService.getSujtNo(trinityUser, subjtNoRequest);
 
+        SujtResponse sujtResponse = trinityService.getSujtNo(trinityUser, subjtNoRequest);
+
+        resp.setStatus(HttpStatus.OK);
+        resp.setMessage("Success");
+        resp.setData(sujtResponse);
         return new ResponseEntity<>(resp, HttpStatus.OK);
     }
 }

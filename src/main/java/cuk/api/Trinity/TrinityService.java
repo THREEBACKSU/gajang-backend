@@ -3,6 +3,8 @@ package cuk.api.Trinity;
 import cuk.api.Trinity.Entity.TrinityUser;
 import cuk.api.Trinity.Request.LoginRequest;
 import cuk.api.Trinity.Request.SubjtNoRequest;
+import cuk.api.Trinity.Response.GradesResponse;
+import cuk.api.Trinity.Response.SujtResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,13 +39,11 @@ public class TrinityService {
         return trinityUser;
     }
 
-    public TrinityUser getGrades(TrinityUser trinityUser) throws Exception {
-        trinityUser = trinityRepository.getGrades(trinityUser);
-
-        return trinityUser;
+    public GradesResponse getGrades(TrinityUser trinityUser) throws Exception {
+        return trinityRepository.getGrades(trinityUser);
     }
 
-    public void getSujtNo(TrinityUser trinityUser, SubjtNoRequest subjtNoRequest) throws Exception {
-        trinityRepository.getSujtNo(trinityUser, subjtNoRequest);
+    public SujtResponse getSujtNo(TrinityUser trinityUser, SubjtNoRequest subjtNoRequest) throws Exception {
+        return trinityRepository.getSujtNo(trinityUser, subjtNoRequest);
     }
 }

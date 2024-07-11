@@ -5,6 +5,8 @@ import cuk.api.Trinity.Entity.CurrentGradeInfo;
 import cuk.api.Trinity.Entity.TrinityInfo;
 import cuk.api.Trinity.Entity.TrinityUser;
 import cuk.api.Trinity.Request.SubjtNoRequest;
+import cuk.api.Trinity.Response.GradesResponse;
+import cuk.api.Trinity.Response.SujtResponse;
 import okhttp3.*;
 import okhttp3.MediaType;
 import org.json.simple.JSONArray;
@@ -205,7 +207,7 @@ public class TrinityRepository {
         return trinityUser;
     }
 
-    public TrinityUser getGrades(TrinityUser trinityUser) throws Exception {
+    public GradesResponse getGrades(TrinityUser trinityUser) throws Exception {
         TrinityInfo info = trinityUser.getTrinityInfo();
         RequestBody formBody = new FormBody.Builder()
                 .add("campFg", info.getCampFg())
@@ -228,9 +230,10 @@ public class TrinityRepository {
                 .addHeader("Referer", "https://uportal.catholic.ac.kr/stw/scsr/ssco/sscoSemesterGradesInq.do")
                 .post(formBody)
                 .build();
-
+        GradesResponse gradesResponse = new GradesResponse();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
+
                 JSONObject data = (JSONObject) parser.parse(response.body().string());
 
                 JSONArray Scores = (JSONArray) data.get("DS_COUR_TALA010");
@@ -239,7 +242,7 @@ public class TrinityRepository {
 
                     CurrentGradeInfo cgi = new CurrentGradeInfo();
                     cgi.setGradeInfo(score);
-                    trinityUser.addGrade(cgi);
+                    gradesResponse.addGrade(cgi);
                 }
             }
         } catch (NullPointerException e) {
@@ -248,10 +251,10 @@ public class TrinityRepository {
             throw new Exception("Request Failed");
         }
 
-        return trinityUser;
+        return gradesResponse;
     }
 
-    public void getSujtNo(TrinityUser trinityUser, SubjtNoRequest subjtNoRequest) throws Exception {
+    public SujtResponse getSujtNo(TrinityUser trinityUser, SubjtNoRequest subjtNoRequest) throws Exception {
         TrinityInfo info = trinityUser.getTrinityInfo();
         RequestBody formBody = new FormBody.Builder()
                 .add("quatFg", "INQ")
@@ -259,7 +262,8 @@ public class TrinityRepository {
                 .add("openYyyy", info.getShtmYyyy())
                 .add("openShtm", info.getShtmFg())
                 .add("campFg", info.getCampFg())
-                .add("corsCd", "I")
+                .add("sustCd", "%")
+                .add("corsCd", "|")
                 .add("danFg", "")
                 .add("pobtFgCd", "%")
                 .build();
@@ -278,18 +282,20 @@ public class TrinityRepository {
                 .addHeader("Referer", "https://uportal.catholic.ac.kr/stw/scsr/scoo/scooOpsbOpenSubjectInq.do")
                 .post(formBody)
                 .build();
-
+        SujtResponse sujtResponse = new SujtResponse();
         try (Response response = client.newCall(request).execute()) {
             if (response.isSuccessful()) {
                 JSONObject data = (JSONObject) parser.parse(response.body().string());
 
-                JSONArray Scores = (JSONArray) data.get("DS_COUR_TALA010");
-                for (Object obj : Scores) {
-                    JSONObject score = (JSONObject) obj;
-
-                    CurrentGradeInfo cgi = new CurrentGradeInfo();
-                    cgi.setGradeInfo(score);
-                    trinityUser.addGrade(cgi);
+                JSONArray subjects = (JSONArray) data.get("DS_CURR_OPSB010");
+                for (Object obj : subjects) {
+                    JSONObject subject = (JSONObject) obj;
+                    if (subject.get("sbjtNo").equals(subjtNoRequest.getSujtNo()) && subject.get("clssNo").equals(subjtNoRequest.getClassNo())) {
+                        sujtResponse.setTlsnAplyRcnt(subject.get("tlsnAplyRcnt").toString());
+                        sujtResponse.setTlsnLmtRcnt(subject.get("tlsnLmtRcnt").toString());
+                        sujtResponse.setSbjtKorNm(subject.get("sbjtKorNm").toString());
+                        break;
+                    }
                 }
             }
         } catch (NullPointerException e) {
@@ -297,5 +303,7 @@ public class TrinityRepository {
         } catch (Exception e) {
             throw new Exception("Request Failed");
         }
+
+        return sujtResponse;
     }
 }
