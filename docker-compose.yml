@@ -27,6 +27,17 @@ services:
     networks:
       - gajang-net
 
+  backend-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 9005-9007:8080
+    depends_on:
+      - db
+    networks:
+      - gajang-net
+
 networks:
   gajang-net:
     driver: bridge
