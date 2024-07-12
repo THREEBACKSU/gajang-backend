@@ -18,6 +18,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -33,6 +34,7 @@ public class TrinitySecurityConfig {
     private final LoginFailureHandler loginFailureHandler;
     private final LoginSuccessHandler loginSuccessHandler;
     private final TrinityProvider trinityProvider;
+    private final SessionRegistry sessionRegistry;
 
     @Bean
     public SecurityFilterChain filterChain2(HttpSecurity http) throws Exception {
@@ -54,7 +56,11 @@ public class TrinitySecurityConfig {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(entryPoint)
-                .accessDeniedHandler(jsonAccessDeniedHandler);
+                .accessDeniedHandler(jsonAccessDeniedHandler)
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .sessionRegistry(sessionRegistry);;
         return http.build();
     }
 

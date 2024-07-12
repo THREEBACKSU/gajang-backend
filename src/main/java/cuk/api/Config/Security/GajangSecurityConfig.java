@@ -17,6 +17,8 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -71,7 +73,11 @@ public class GajangSecurityConfig {
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(entryPoint())
-                .accessDeniedHandler(jsonAccessDeniedHandler());
+                .accessDeniedHandler(jsonAccessDeniedHandler())
+                .and()
+                .sessionManagement()
+                .maximumSessions(1)
+                .sessionRegistry(sessionRegistry());
         return http.build();
     }
 
@@ -129,5 +135,10 @@ public class GajangSecurityConfig {
     @Bean
     public JSONAccessDeniedHandler jsonAccessDeniedHandler() {
         return new JSONAccessDeniedHandler(objectMapper);
+    }
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
     }
 }
