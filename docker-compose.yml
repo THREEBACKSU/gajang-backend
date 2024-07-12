@@ -17,12 +17,11 @@ services:
       - gajang-net
 
   backend:
-    container_name: gajang-spring
     build:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 9002:8080
+      - 9002-9004:8080
     depends_on:
       - db
     networks:
