@@ -5,6 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+import org.springframework.security.web.authentication.session.ChangeSessionIdAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.StreamUtils;
@@ -30,7 +31,7 @@ public class GajangLoginFilter extends AbstractAuthenticationProcessingFilter {
 
     public GajangLoginFilter(ObjectMapper objectMapper) {
         super(DEFAULT_LOGIN_PATH_REQUEST_MATCHER);
-        setSessionAuthenticationStrategy(new SessionFixationProtectionStrategy());
+        setSessionAuthenticationStrategy(new ChangeSessionIdAuthenticationStrategy());
         this.objectMapper = objectMapper;
     }
 
